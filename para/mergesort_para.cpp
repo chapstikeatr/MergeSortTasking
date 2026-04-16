@@ -1,7 +1,10 @@
+#include "omp_tasking.hpp"
 #include <algorithm>
 #include <chrono>
+#include <cstdlib>
 #include <fcntl.h>
 #include <iostream>
+#include <omp.h>
 #include <stdio.h>
 #include <sys/stat.h>
 #include <sys/types.h>
@@ -9,6 +12,7 @@
 #include <vector>
 
 #define DEBUG 0
+const int THRESHOLD = 16384;
 
 void generateMergeSortData(std::vector<int> &arr, size_t n) {
   for (size_t i = 0; i < n; ++i) {
@@ -30,62 +34,65 @@ void merge(int *arr, size_t l, size_t mid, size_t r, int *temp) {
 #if DEBUG
   std::cout << l << " " << mid << " " << r << std::endl;
 #endif
-
-  // short circuits
-  if (l == r)
+  if (l >= r)
     return;
-  if (r - l == 1) {
-    if (arr[l] > arr[r]) {
-      size_t temp = arr[l];
-      arr[l] = arr[r];
-      arr[r] = temp;
-    }
-    return;
-  }
 
-  size_t i, j, k;
-  size_t n = mid - l;
+  for (size_t i = l; i < mid; ++i)
+    temp[i] = arr[i];
 
-  // init temp arrays
-  for (i = 0; i < n; ++i)
-    temp[i] = arr[l + i];
+  size_t i = l;
+  size_t j = mid;
+  size_t k = l;
 
-  i = 0;   // temp left half
-  j = mid; // right half
-  k = l;   // write to
-
-  // merge
-  while (i < n && j <= r) {
-    if (temp[i] <= arr[j]) {
+  while (i < mid && j <= r) {
+    if (temp[i] <= arr[j])
       arr[k++] = temp[i++];
-    } else {
+    else
       arr[k++] = arr[j++];
-    }
   }
 
-  // exhaust temp
-  while (i < n) {
+  while (i < mid) {
     arr[k++] = temp[i++];
   }
 }
 
-void mergesort(int *arr, size_t l, size_t r, int *temp) {
+void mergesort_seq(int *arr, size_t l, size_t r, int *temp) {
   if (l < r) {
     size_t mid = (l + r) / 2;
-    mergesort(arr, l, mid, temp);
-    mergesort(arr, mid + 1, r, temp);
+    mergesort_seq(arr, l, mid, temp);
+    mergesort_seq(arr, mid + 1, r, temp);
+    merge(arr, l, mid + 1, r, temp);
+  }
+}
+
+void mergesort_para(int *arr, size_t l, size_t r, int *temp) {
+  if (l < r) {
+
+    size_t size = r - l;
+
+    if (size <= THRESHOLD) {
+      mergesort_seq(arr, l, r, temp);
+      return;
+    }
+
+    size_t mid = l + (r - l) / 2;
+    tasking::taskstart([&]() { mergesort_para(arr, l, mid, temp); });
+    tasking::taskstart([&]() { mergesort_para(arr, mid + 1, r, temp); });
+    tasking::taskwait();
+
     merge(arr, l, mid + 1, r, temp);
   }
 }
 
 int main(int argc, char *argv[]) {
-  if (argc < 2) {
-    std::cerr << "Usage: " << argv[0] << " <n>" << std::endl;
+  if (argc < 3) {
+    std::cerr << "Usage: " << argv[0] << " <n> <nb-threads>" << std::endl;
     return -1;
   }
 
   // command line parameter
   size_t n = atol(argv[1]);
+  int threads = atol(argv[2]);
 
   // get arr data
   std::vector<int> arr(n);
@@ -102,8 +109,10 @@ int main(int argc, char *argv[]) {
       std::chrono::system_clock::now();
 
   std::vector<int> temp(n);
+  std::cout << "threads: " << threads;
   // sort
-  mergesort(&(arr[0]), 0, n - 1, &(temp[0]));
+  tasking::doinparallel(
+      [&]() { mergesort_para(&(arr[0]), 0, n - 1, &(temp[0])); }, threads);
 
   // end timing
   std::chrono::time_point<std::chrono::system_clock> end =

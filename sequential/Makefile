@@ -7,7 +7,7 @@ all: mergesort_seq
 
 
 mergesort_seq: mergesort_seq.o
-	$(LD) $(LDFLAGS) mergesort_seq.o $(ARCHIVES) -o mergesort_seq
+	$(LD) $(LDFLAGS) mergesort_seq.cpp $(ARCHIVES) -o mergesort_seq
 
 
 bench: mergesort_seq
