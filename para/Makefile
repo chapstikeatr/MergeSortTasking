@@ -1,6 +1,6 @@
 
 # Compiler and flags
-CXX = g++-15
+CXX = g++#-15
 CXXFLAGS = -std=c++17 -O3  -fopenmp
 
 # Target executable name

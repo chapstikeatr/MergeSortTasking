@@ -57,46 +57,39 @@ void checkMergeSortResult(std::vector<int> &arr, size_t n) {
 // }
 
 void merge(int *arr, size_t l, size_t mid, size_t r, int *temp) {
-
 #if DEBUG
   std::cout << l << " " << mid << " " << r << std::endl;
 #endif
 
-  // short circuits
-  if (l == r)
-    return;
-  if (r - l == 1) {
-    if (arr[l] > arr[r]) {
-      size_t temp = arr[l];
-      arr[l] = arr[r];
-      arr[r] = temp;
-    }
-    return;
+  if (l >= r) return;
+
+  // Here, mid is the first index of the right half.
+  // Left half  = [l, mid - 1]
+  // Right half = [mid, r]
+
+  // Copy the whole range to temp using the same indices.
+  for (size_t i = l; i <= r; ++i) {
+    temp[i] = arr[i];
   }
 
-  size_t i, j, k;
-  size_t n = mid - l;
+  size_t i = l;    // current index in left half
+  size_t j = mid;  // current index in right half
+  size_t k = l;    // current write index in arr
 
-  // init temp arrays
-  for (i = 0; i < n; ++i)
-    temp[i] = arr[l + i];
-
-  i = 0;   // temp left half
-  j = mid; // right half
-  k = l;   // write to
-
-  // merge
-  while (i < n && j <= r) {
-    if (temp[i] <= arr[j]) {
+  while (i < mid && j <= r) {
+    if (temp[i] <= temp[j]) {
       arr[k++] = temp[i++];
     } else {
-      arr[k++] = arr[j++];
+      arr[k++] = temp[j++];
     }
   }
 
-  // exhaust temp
-  while (i < n) {
+  while (i < mid) {
     arr[k++] = temp[i++];
+  }
+
+  while (j <= r) {
+    arr[k++] = temp[j++];
   }
 }
 

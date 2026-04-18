@@ -1,0 +1,30 @@
+slurmstepd: error: execve(): /users/cstickl3/MergeSortTasking/para/mergesort_para: Exec format error
+slurmstepd: error: execve(): /users/cstickl3/MergeSortTasking/para/mergesort_para: Exec format error
+slurmstepd: error: execve(): /users/cstickl3/MergeSortTasking/para/mergesort_para: Exec format error
+slurmstepd: error: execve(): /users/cstickl3/MergeSortTasking/para/mergesort_para: Exec format error
+slurmstepd: error: execve(): /users/cstickl3/MergeSortTasking/para/mergesort_para: Exec format error
+slurmstepd: error: execve(): /users/cstickl3/MergeSortTasking/para/mergesort_para: Exec format error
+slurmstepd: error: execve(): /users/cstickl3/MergeSortTasking/para/mergesort_para: Exec format error
+slurmstepd: error: execve(): /users/cstickl3/MergeSortTasking/para/mergesort_para: Exec format error
+srun: error: gal-c1: tasks 0-7: Exited with exit code 8
+srun: Terminating StepId=18343.0
+slurmstepd: error: execve(): /users/cstickl3/MergeSortTasking/para/mergesort_para: Exec format error
+slurmstepd: error: execve(): /users/cstickl3/MergeSortTasking/para/mergesort_para: Exec format error
+slurmstepd: error: execve(): /users/cstickl3/MergeSortTasking/para/mergesort_para: Exec format error
+slurmstepd: error: execve(): /users/cstickl3/MergeSortTasking/para/mergesort_para: Exec format error
+slurmstepd: error: execve(): /users/cstickl3/MergeSortTasking/para/mergesort_para: Exec format error
+slurmstepd: error: execve(): /users/cstickl3/MergeSortTasking/para/mergesort_para: Exec format error
+slurmstepd: error: execve(): /users/cstickl3/MergeSortTasking/para/mergesort_para: Exec format error
+slurmstepd: error: execve(): /users/cstickl3/MergeSortTasking/para/mergesort_para: Exec format error
+srun: error: gal-c1: tasks 0-7: Exited with exit code 8
+srun: Terminating StepId=18343.1
+slurmstepd: error: execve(): /users/cstickl3/MergeSortTasking/para/mergesort_para: Exec format error
+slurmstepd: error: execve(): /users/cstickl3/MergeSortTasking/para/mergesort_para: Exec format error
+slurmstepd: error: execve(): /users/cstickl3/MergeSortTasking/para/mergesort_para: Exec format error
+slurmstepd: error: execve(): /users/cstickl3/MergeSortTasking/para/mergesort_para: Exec format error
+slurmstepd: error: execve(): /users/cstickl3/MergeSortTasking/para/mergesort_para: Exec format error
+slurmstepd: error: execve(): /users/cstickl3/MergeSortTasking/para/mergesort_para: Exec format error
+slurmstepd: error: execve(): /users/cstickl3/MergeSortTasking/para/mergesort_para: Exec format error
+slurmstepd: error: execve(): /users/cstickl3/MergeSortTasking/para/mergesort_para: Exec format error
+srun: error: gal-c1: tasks 0-7: Exited with exit code 8
+srun: Terminating StepId=18343.2
