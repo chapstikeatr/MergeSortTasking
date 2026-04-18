@@ -1,0 +1,2 @@
+
+(paracomp) carterstickle@Carters-MacBook-Pro para % g++-15 -std=c++17 -O2 -fopenmp nbody.cpp -o test                                                               

@@ -29,29 +29,73 @@ void checkMergeSortResult(std::vector<int> &arr, size_t n) {
     std::cerr << "notok" << std::endl;
 }
 
+// void merge(int *arr, size_t l, size_t mid, size_t r, int *temp) {
+//
+// #if DEBUG
+//   std::cout << l << " " << mid << " " << r << std::endl;
+// #endif
+//   if (l >= r)
+//     return;
+//
+//   for (size_t i = l; i < mid; ++i)
+//     temp[i] = arr[i];
+//
+//   size_t i = l;
+//   size_t j = mid;
+//   size_t k = l;
+//
+//   while (i < mid && j <= r) {
+//     if (temp[i] <= arr[j])
+//       arr[k++] = temp[i++];
+//     else
+//       arr[k++] = arr[j++];
+//   }
+//
+//   while (i < mid) {
+//     arr[k++] = temp[i++];
+//   }
+// }
+
 void merge(int *arr, size_t l, size_t mid, size_t r, int *temp) {
 
 #if DEBUG
   std::cout << l << " " << mid << " " << r << std::endl;
 #endif
-  if (l >= r)
+
+  // short circuits
+  if (l == r)
     return;
-
-  for (size_t i = l; i < mid; ++i)
-    temp[i] = arr[i];
-
-  size_t i = l;
-  size_t j = mid;
-  size_t k = l;
-
-  while (i < mid && j <= r) {
-    if (temp[i] <= arr[j])
-      arr[k++] = temp[i++];
-    else
-      arr[k++] = arr[j++];
+  if (r - l == 1) {
+    if (arr[l] > arr[r]) {
+      size_t temp = arr[l];
+      arr[l] = arr[r];
+      arr[r] = temp;
+    }
+    return;
   }
 
-  while (i < mid) {
+  size_t i, j, k;
+  size_t n = mid - l;
+
+  // init temp arrays
+  for (i = 0; i < n; ++i)
+    temp[i] = arr[l + i];
+
+  i = 0;   // temp left half
+  j = mid; // right half
+  k = l;   // write to
+
+  // merge
+  while (i < n && j <= r) {
+    if (temp[i] <= arr[j]) {
+      arr[k++] = temp[i++];
+    } else {
+      arr[k++] = arr[j++];
+    }
+  }
+
+  // exhaust temp
+  while (i < n) {
     arr[k++] = temp[i++];
   }
 }
@@ -76,8 +120,8 @@ void mergesort_para(int *arr, size_t l, size_t r, int *temp) {
     }
 
     size_t mid = l + (r - l) / 2;
-    tasking::taskstart([&]() { mergesort_para(arr, l, mid, temp); });
-    tasking::taskstart([&]() { mergesort_para(arr, mid + 1, r, temp); });
+    tasking::taskstart([=]() { mergesort_para(arr, l, mid, temp); });
+    tasking::taskstart([=]() { mergesort_para(arr, mid + 1, r, temp); });
     tasking::taskwait();
 
     merge(arr, l, mid + 1, r, temp);
@@ -104,12 +148,12 @@ int main(int argc, char *argv[]) {
   std::cout << std::endl;
 #endif
 
+  std::vector<int> temp(n);
   // begin timing
   std::chrono::time_point<std::chrono::system_clock> start =
       std::chrono::system_clock::now();
 
-  std::vector<int> temp(n);
-  std::cout << "threads: " << threads;
+  std::cout << "threads: " << threads << '\n';
   // sort
   tasking::doinparallel(
       [&]() { mergesort_para(&(arr[0]), 0, n - 1, &(temp[0])); }, threads);

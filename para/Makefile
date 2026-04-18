@@ -1,7 +1,7 @@
 
 # Compiler and flags
 CXX = g++-15
-CXXFLAGS = -std=c++17 -O2 -fopenmp
+CXXFLAGS = -std=c++17 -O3  -fopenmp
 
 # Target executable name
 TARGET = mergesort_para

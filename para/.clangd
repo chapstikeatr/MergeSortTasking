@@ -1,0 +1,8 @@
+CompileFlags:
+  Add: [
+    "-Xclang", 
+    "-fopenmp", 
+    "-I/opt/homebrew/opt/libomp/include",
+    "-L/opt/homebrew/opt/libomp/lib",
+    "-lomp"
+  ]
