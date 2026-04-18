@@ -1,0 +1,36 @@
+Array Size: 10000000
+threads: 1
+0.982388
+Array Size: 10000000
+threads: 2
+0.514865
+Array Size: 10000000
+threads: 4
+0.404864
+Array Size: 10000000
+threads: 8
+0.282542
+Array Size: 100000000
+threads: 1
+11.2292
+Array Size: 100000000
+threads: 2
+5.85959
+Array Size: 100000000
+threads: 4
+4.83451
+Array Size: 100000000
+threads: 8
+3.22981
+Array Size: 1000000000
+threads: 1
+127.894
+Array Size: 1000000000
+threads: 2
+66.3641
+Array Size: 1000000000
+threads: 4
+50.7755
+Array Size: 1000000000
+threads: 8
+35.2006

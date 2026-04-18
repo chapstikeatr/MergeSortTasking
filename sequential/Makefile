@@ -1,23 +1,20 @@
-CFLAGS=-O3 -std=c11 -fPIC -g
-CXXFLAGS=-O3 -std=c++17 -fPIC -g
-LD=g++
+# Compiler and flags
+CXX = g++ #-15
+CXXFLAGS = -std=c++17 -O2 
 
+# Target executable name
+TARGET = mergesort_seq
 
-all: mergesort_seq
+# Source files
+SRC = mergesort_seq_nocopy.cpp
 
+# Default target
+all: $(TARGET)
 
-mergesort_seq: mergesort_seq.o
-	$(LD) $(LDFLAGS) mergesort_seq.cpp $(ARCHIVES) -o mergesort_seq
+# Build rule
+$(TARGET): $(SRC)
+	$(CXX) $(CXXFLAGS) -o $(TARGET) $(SRC)
 
-
-bench: mergesort_seq
-	./queue.sh
-
+# Clean rule
 clean:
-	-rm *.o
-	-rm mergesort_seq
-
-distclean:
-	-rm *.sh.*
-
-.PHONY:  mergesort_seq
+	rm -f $(TARGET)

@@ -63,10 +63,6 @@ void merge(int *arr, size_t l, size_t mid, size_t r, int *temp) {
 
   if (l >= r) return;
 
-  // Here, mid is the first index of the right half.
-  // Left half  = [l, mid - 1]
-  // Right half = [mid, r]
-
   // Copy the whole range to temp using the same indices.
   for (size_t i = l; i <= r; ++i) {
     temp[i] = arr[i];
@@ -146,7 +142,8 @@ int main(int argc, char *argv[]) {
   std::chrono::time_point<std::chrono::system_clock> start =
       std::chrono::system_clock::now();
 
-  std::cout << "threads: " << threads << '\n';
+  std::cerr << "Array Size: " << n  << '\n';
+  std::cerr << "threads: " << threads << '\n';
   // sort
   tasking::doinparallel(
       [&]() { mergesort_para(&(arr[0]), 0, n - 1, &(temp[0])); }, threads);
